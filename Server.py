@@ -37,4 +37,5 @@ def main():
         doorunlock(data, addr[0])
 
 if __name__ == '__main__':
+    print "hello"
     main()
