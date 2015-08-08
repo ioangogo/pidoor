@@ -11,6 +11,9 @@ def respond(IP, msg):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.sendto(msg, (UDP_IP, UDP_PORT))
 def doorlock():
+    count=0
+    while count<10:
+        #gpio green blink
     print "The Door is now locked, Waiting for next request"
 def doorunlock(OTP, IP):
     if auth.valid_totp(int(OTP)) == True:
@@ -19,11 +22,14 @@ def doorunlock(OTP, IP):
         #return sucsess
         print msg
         respond(IP,msg)
-        sleep(10)
         doorlock()
+    elif OTP=="failed":
+        #gpio 4 blink
     else:
-        msg = "OTP missmatch, failed attempt Your  ip address is being loged"
+        msg = "OTP missmatch, Waiting for Admin"
         print msg
+        while True:
+            #alternateing red green
         respond(IP,msg)
 def main():
     UDP_IP = "127.0.0.1"
