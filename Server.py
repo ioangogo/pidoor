@@ -3,7 +3,24 @@ from time import sleep
 import socket
 global auth
 auth = OtpAuth('secret')
-
+def led(status):
+    count=0
+    if status == "good":
+        while count < 10
+            #gpio
+            sleep(1)
+            count=count+1
+    elif status == "authfalse":
+        while count < 4
+            #gpio
+            sleep(1)
+            count=count+1
+    elif status == "Falt":
+        while True:
+            #gpio
+            sleep(1)
+            #gpio
+            sleep(1)
 def respond(IP, msg):
     UDP_IP = IP
     UDP_PORT = 5006
@@ -11,25 +28,21 @@ def respond(IP, msg):
     sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     sock.sendto(msg, (UDP_IP, UDP_PORT))
 def doorlock():
-    count=0
-    while count<10:
-        #gpio green blink
+    led("good")
     print "The Door is now locked, Waiting for next request"
 def doorunlock(OTP, IP):
     if auth.valid_totp(int(OTP)) == True:
         msg="OTP match Door Unlocked Unlocking for 10 seconds"
-        #gpio stuff
-        #return sucsess
         print msg
         respond(IP,msg)
         doorlock()
     elif OTP=="failed":
-        #gpio 4 blink
+        led("authfalse")
+        print "user has failed auth"
     else:
-        msg = "OTP missmatch, Waiting for Admin"
+        msg = "Somthing has gone wrong, Waiting for Admin"
         print msg
-        while True:
-            #alternateing red green
+        led("Falt")
         respond(IP,msg)
 def main():
     UDP_IP = "127.0.0.1"
